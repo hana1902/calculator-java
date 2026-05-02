@@ -1,0 +1,28 @@
+projekat: calculator-java 
+student:Hana Ćatović
+Izveštaj o testiranju softvera
+
+| ID | Test Case            | Ulaz (Input) | Očekivani ishod               | Stvarni ishod                           | Status   |
+| 1 | Prazan unos           | (prazno)     | Poruka o grešci               | StringIndexOutOfBoundsException (Crash) | **FAIL** |
+| 2 | Deljenje nulom        | 10 / 0       | "Error" ili "Nije dozvoljeno" | Infinity                                | **FAIL** |
+| 3 | Nevalidni karakteri   | 5 + abc      | "ERROR"                       | "ERROR"                                 | **PASS** |
+| 4 | Višestruki operatori  | 10 ++ 5      | "ERROR" ili "15"              | "ERROR"                                 | **PASS** |
+| 5 | Redosled operacija    | 2 + 3 * 4    | 14.0                          | 14.0                                    | **PASS** |
+| 6 | Specijalni karakteri  | 10 % 2       | Poruka o grešci               | "ERROR"                                 | **PASS** |
+
+Zapazanja:
+Aplikacija puca ako korisnik ne unese ništa, jer metoda `evaluateExpression` pokušava da pročita karakter na poziciji 0 bez provere dužine stringa. Deljenje nulom ne izbacuje grešku već vraća matematičku beskonačnost, što u nekim sistemima može biti nepoželjno.
+
+unit test:
+Cilj:Provera da li metoda ispravno obrađuje liste brojeva i operacija za jednostavno sabiranje.
+@Test
+public void testCalculateSimpleAddition() {
+    
+    List<Float> testNumbers = new ArrayList<>(Arrays.asList(10.0f, 5.0f));
+    List<String> testOperations = new ArrayList<>(Arrays.asList("+"));
+    
+    Calculator.Calculate(testNumbers, testOperations);
+    
+    float expected = 15.0f;
+    assertEquals(expected, Calculator.finalResult, "Sabiranje 10 + 5 bi trebalo da bude 15");
+}
